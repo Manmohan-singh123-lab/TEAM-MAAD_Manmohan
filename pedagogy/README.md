@@ -5,13 +5,13 @@
 
 
 <br>
-<b> Experiment : Name of the experiment	 <a name="top"></a> <br>
+<b> Experiment : design a front end BPSK modulator and demodulator <a name="top"></a> <br>
 </p>
 
-<b>Discipline | Fill your discipline name here <b> 
+<b>Discipline | Dlectronics & Communication Engineering <b> 
 :--|:--|
-<b> Lab | Fill your lab name here<b> 
-<b> Experiment|  Fill your experiment name here   <b> 
+<b> Lab | Communication Engineering Lab<b> 
+<b> Experiment|  Design a front end BPSK modulator and dmodulator  <b> 
 
 
 <h4> [1. Focus Area](#LO)
@@ -22,17 +22,15 @@
 <hr>
 
 <a name="LO"></a>
-#### 1. Focus Area : Reinforce theoretical concept.
-
+#### 1. Focus Area : Digital communation,RF Signal Processing ,modulation Techniques ,wireless communication systems
 #### 2. Learning Objectives and Cognitive Level
 
 
 Sr. No |	Learning Objective	| Cognitive Level | Action Verb
 :--|:--|:--|:-:
-1.|   <br>   |    |   
-2.|   <br>   |    |   
-3.|   <br>   |    |   
-
+1.|Understand the concept of BPSK modulation and demodulation in real world RF system|Understand|Understand   
+2.|Understand the concept of BPSK modulation and demodulation in real world RF system|Analyze|Simulate,Analyze   
+3.|Identify effect of noise and filte inring front-end BPSK receivers| Evaluate|Identity,Evaluate   
 <br/>
 <div align="right">
     <b><a href="#top">↥ back to top</a></b>
