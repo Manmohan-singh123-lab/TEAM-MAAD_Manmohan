@@ -3,10 +3,12 @@ communication engineering lab
 ## Introduction
 
 
-<b>Discipline | <b>Fill your discipline name here
+<b>Discipline | <b>Electronics & Communication Engineering
 :--|:--|
-<b> Lab | <b> Fill your lab name here
-<b> Experiment|     <b> Fill your experiment name and number here
+<b> Lab | <b> Communication Engineering Lab
+<b> Experiment|     <b> 1. Design a front end BPSK modulator and demodulator.
+                    <b> 2. Study of single bit error detection and correction using hamming code. 
+                    <b> 3. Study of amplitude shift keying modulator and demodulator. 
 
 ### About the Experiment 
 
