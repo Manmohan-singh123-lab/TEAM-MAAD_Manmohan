@@ -5,10 +5,10 @@
 
 
 <br>
-<b> Experiment : design a front end BPSK modulator and demodulator <a name="top"></a> <br>
+<b> Experiment : Design a front end BPSK modulator and demodulator <a name="top"></a> <br>
 </p>
 
-<b>Discipline | Dlectronics & Communication Engineering <b> 
+<b>Discipline | Electronics & Communication Engineering <b> 
 :--|:--|
 <b> Lab | Communication Engineering Lab<b> 
 <b> Experiment|  Design a front end BPSK modulator and demodulator  <b> 
@@ -40,10 +40,15 @@ Sr. No |	Learning Objective	| Cognitive Level | Action Verb
 
 <a name="IS"></a>
 #### 3. Instructional Strategy
-###### Name of Instructional Strategy  :    <u>   
-###### Assessment Method:   
+##### Simulation-based Intractive Learning  :    <u>   
+##### Assessment Method:
+###### Quiz after simulation<br>
+###### Observation of waveform behavior<br>
+###### Viva or MCQs based on BPSK modulation/demodulation<br>
+###### Lab report submission with calculation and theory<br>  
 
-<u> <b>Description: </b>    </u>
+<u> <b>Description: </b>
+###### In this experiment, students will use a simulation-based environment to understand the working of Binary Phase Shift Keying (BPSK). The strategy involves step-by-step virtual simulation ofBPSK signal generation using binary input dataPhase shift verification (0° for bit ‘1’, 180° for bit ‘0’)Effect of noise and filtering in demodulated outputComparison of transmitted and received signal   </u>
 <br>
     
 
@@ -62,8 +67,8 @@ Sr. No |	Learning Objective	| Cognitive Level | Action Verb
 
 Sr. No |	Learning Objective	| Task to be performed by <br> the student  in the simulator | Assessment Questions as per LO & Task
 :--|:--|:--|:-:
-1.|   <br>  |   <br>  | <br> 
-2.|   <br>  |   <br>  | <br> 
+1.|   To understand phase shift in bpsk four binary inputs  |simulate BPSK signal generation for binary data (0 and 1)| what is the phase of the BPOSK signal for bit 0 and bit 1  
+2.|to analyze the effect of noise and filtering at the receiver end   |add gaussian noise to bpsk signal and observe the demodulated output before and after applying a filter     |how does filtering affect the output signal in the presence of noise ? what is the role of a low pass filter here 
 
 
 <div align="right">
@@ -79,5 +84,5 @@ Sr. No |	Learning Objective	| Task to be performed by <br> the student  in the s
 
 Sr.No | What Students will do? |	What Simulator will do?	| Purpose of the task
 :--|:--|:--|:--:
-1.|  <br> | <br> |   
-2.|  <br> | <br> |
+1.|student will input binary data sequence (e.g., 1010) |simulator with generate bpsk mudulated based on input|to observe how binary data is cnverted into phase-shifted carrier signals 
+2.|student will add noise and apply filter to received signal  |simulator will show noisy and filtered demodulated signal  |to understand affect of noise and importance of filtering at receiver end
