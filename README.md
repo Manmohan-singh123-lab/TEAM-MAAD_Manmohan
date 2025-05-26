@@ -3,7 +3,7 @@ communication engineering lab
 ## Introduction
 
 
-<b>Discipline | <b>Electronics & Communication Engineering
+<b>Discipline | <b>Electronics Engineering
 :--|:--|
 <b> Lab | <b> Communication Engineering Lab
 <b> Experiment|     <b> Design a front end BPSK modulator and demodulator.
