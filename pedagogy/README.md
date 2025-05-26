@@ -11,7 +11,7 @@
 <b>Discipline | Dlectronics & Communication Engineering <b> 
 :--|:--|
 <b> Lab | Communication Engineering Lab<b> 
-<b> Experiment|  Design a front end BPSK modulator and dmodulator  <b> 
+<b> Experiment|  Design a front end BPSK modulator and demodulator  <b> 
 
 
 <h4> [1. Focus Area](#LO)
