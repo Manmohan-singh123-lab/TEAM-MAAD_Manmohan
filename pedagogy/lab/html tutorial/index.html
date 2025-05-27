@@ -1,0 +1,92 @@
+!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>BPSK Modulation and Demodulation</title>
+  <style>
+    body {
+      background: #f0f0f0;
+      font-family: Arial;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    canvas {
+      border: 1px solid #444;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>BPSK Modulation & Demodulation Simulator</h1>
+  <input type="text" id="bitInput" placeholder="Enter binary data e.g. 101010">
+  <br>
+  <button onclick="modulate()">Modulate</button>
+  <button onclick="demodulate()">Demodulate</button>
+  <br>
+  <canvas id="canvas" width="1000" height="300"></canvas>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const amplitude = 50;
+    const bitWidth = 100;
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawWave(data, modulate = true) {
+      clearCanvas();
+      ctx.beginPath();
+      ctx.moveTo(0, 150);
+      let x = 0;
+
+      for (let b = 0; b < data.length; b++) {
+        const bit = data[b];
+        let phase = modulate
+          ? (bit === "0" ? 0 : Math.PI)
+          : (bit === 1 ? 0 : Math.PI);
+
+        for (let i = 0; i < bitWidth; i++) {
+          const y = 150 - amplitude * Math.cos((2 * Math.PI * i / bitWidth) + phase);
+          ctx.lineTo(x, y);
+          x++;
+        }
+      }
+
+      ctx.strokeStyle = modulate ? "blue" : "green";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    function modulate() {
+      const bitString = document.getElementById("bitInput").value.trim();
+      if (!/^[01]+$/.test(bitString)) {
+        alert("Please enter a valid binary string (e.g. 1010).");
+        return;
+      }
+      drawWave(bitString, true);
+    }
+
+    function demodulate() {
+      const bitString = document.getElementById("bitInput").value.trim();
+      if (!/^[01]+$/.test(bitString)) {
+        alert("Please enter a valid binary string (e.g. 1010).");
+        return;
+      }
+      // Simulate demodulation (recovery of original signal)
+      const recoveredBits = bitString.split("").map(bit => parseInt(bit));
+      drawWave(recoveredBits, false);
+    }
+  </script>
+
+</body>
+</html>

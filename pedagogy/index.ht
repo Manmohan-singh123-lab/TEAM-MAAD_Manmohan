@@ -1,0 +1,64 @@
+!DOCTYPE html>
+<html>
+<head>
+  <title>BPSK Modulation Simulator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f2f2f2;
+    }
+    canvas {
+      border: 1px solid #333;
+      margin-top: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 300px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>BPSK Modulation Simulation</h1>
+  <p>Enter binary data (e.g. 1011001):</p>
+  <input type="text" id="bitInput" placeholder="e.g. 1011001">
+  <br>
+  <button onclick="drawBPSK()">Modulate</button>
+  <canvas id="bpskCanvas" width="1000" height="300"></canvas>
+
+  <script>
+    function drawBPSK() {
+      const canvas = document.getElementById('bpskCanvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const bitString = document.getElementById('bitInput').value.trim();
+      const bits = bitString.split('');
+      const bitDuration = 100; // pixels
+      const amplitude = 40;
+      const freq = 2 * Math.PI / bitDuration;
+
+      let x = 0;
+
+      ctx.beginPath();
+      ctx.moveTo(0, 150);
+
+      for (let b = 0; b < bits.length; b++) {
+        const bit = bits[b];
+        for (let i = 0; i < bitDuration; i++) {
+          let phase = bit === '0' ? 0 : Math.PI;
+          const y = 150 - amplitude * Math.cos(freq * i + phase);
+          ctx.lineTo(x, y);
+          x++;
+        }
+      }
+
+      ctx.strokeStyle = 'blue';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  </script>
+</body>
+</html>
