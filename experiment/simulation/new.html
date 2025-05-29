@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pre-emphasis and De-emphasis Virtual Lab</title>
+<style>
+  /* Basic styling */
+  #circuitCanvas, #timeDomainCanvas, #freqPreCanvas, #freqDeCanvas, #freqCombinedCanvas {
+    border: 1px solid black;
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+  <h1>Pre-emphasis and De-emphasis Virtual Lab</h1>
+
+  <div class="controls">
+    <label for="tauPre">Pre-emphasis Tau (ms):</label>
+    <input type="number" id="tauPre" value="1" min="0.1" step="0.1"><br><br>
+    <label for="tauDe">De-emphasis Tau (ms):</label>
+    <input type="number" id="tauDe" value="1" min="0.1" step="0.1"><br><br>
+    <label for="signalFreq">Sine Frequency (Hz):</label>
+    <input type="number" id="signalFreq" value="1000" min="1" step="1"><br><br>
+    <label for="signalAmp">Signal Amplitude:</label>
+    <input type="number" id="signalAmp" value="1" min="0.1" step="0.1"><br><br>
+    <label for="signalType">Input Signal:</label>
+    <select id="signalType">
+      <option value="sine">Sine Wave</option>
+      <option value="noise">White Noise</option>
+    </select><br><br>
+    <button id="simulatePre">Simulate Pre-emphasis</button>
+    <button id="simulateDe">Simulate De-emphasis</button>
+    <button id="simulateCombined">Simulate Combined</button>
+  </div>
+
+  <h2>Circuit Diagrams (Simplified - Conceptual)</h2>
+  <canvas id="circuitCanvas" width="400" height="150">Your browser does not support canvas.</canvas>
+
+  <h2>Time Domain Simulation</h2>
+  <canvas id="timeDomainCanvas" width="600" height="200">Your browser does not support canvas.</canvas>
+
+  <h2>Frequency Response</h2>
+  <div>
+    <h3>Pre-emphasis</h3>
+    <canvas id="freqPreCanvas" width="400" height="200">Your browser does not support canvas.</canvas>
+    <h3>De-emphasis</h3>
+    <canvas id="freqDeCanvas" width="400" height="200">Your browser does not support canvas.</canvas>
+    <h3>Combined (Pre & De)</h3>
+    <canvas id="freqCombinedCanvas" width="400" height="200">Your browser does not support canvas.</canvas>
+  </div>
+
+  <script>
+    // Get elements
+    const tauPreInput = document.getElementById('tauPre');
+    const tauDeInput = document.getElementById('tauDe');
+    const signalFreqInput = document.getElementById('signalFreq');
+    const signalAmpInput = document.getElementById('signalAmp');
+    const signalTypeSelect = document.getElementById('signalType');
+    const simulatePreButton = document.getElementById('simulatePre');
+    const simulateDeButton = document.getElementById('simulateDe');
+    const simulateCombinedButton = document.getElementById('simulateCombined');
+    const circuitCanvas = document.getElementById('circuitCanvas');
+    const timeDomainCanvas = document.getElementById('timeDomainCanvas');
+    const freqPreCanvas = document.getElementById('freqPreCanvas');
+    const freqDeCanvas = document.getElementById('freqDeCanvas');
+    const freqCombinedCanvas = document.getElementById('freqCombinedCanvas');
+    const circuitCtx = circuitCanvas.getContext('2d');
+    const timeDomainCtx = timeDomainCanvas.getContext('2d');
+    const freqPreCtx = freqPreCanvas.getContext('2d');
+    const freqDeCtx = freqDeCanvas.getContext('2d');
+    const freqCombinedCtx = freqCombinedCanvas.getContext('2d');
+
+    const sampleRate = 44100; // Samples per second
+    const duration = 0.1;   // Simulation duration in seconds
+    const numSamples = Math.floor(sampleRate * duration);
+
+    // --- Signal Generation Functions ---
+    function generateSineWave(frequency, amplitude) {
+      const signal = [];
+      for (let i = 0; i < numSamples; i++) {
+        const time = i / sampleRate;
+        signal.push(amplitude * Math.sin(2 * Math.PI * frequency * time));
+      }
+      return signal;
+    }
+
+    function generateWhiteNoise(amplitude) {
+      const signal = [];
+      for (let i = 0; i < numSamples; i++) {
+        signal.push(amplitude * (Math.random() * 2 - 1)); // Values between -amplitude and +amplitude
+      }
+      return signal;
+    }
+
+    // --- Filter Simulation Functions (First-Order IIR Filters) ---
+    function applyPreEmphasis(signal, tau) {
+      const alpha = 1 / (1 + tau * sampleRate / 1000); // tau is in ms
+      let yPrev = 0;
+      const output = [];
+      for (let i = 0; i < signal.length; i++) {
+        const y = alpha * yPrev + (1 - alpha) * (signal[i] - (i > 0 ? signal[i - 1] : 0));
+        output.push(y);
+        yPrev = y;
+      }
+      return output;
+    }
+
+    function applyDeEmphasis(signal, tau) {
+      const alpha = Math.exp(-1 / (tau * sampleRate / 1000)); // tau is in ms
+      let yPrev = 0;
+      const output = [];
+      for (let i = 0; i < signal.length; i++) {
+        const y = alpha * yPrev + (1 - alpha) * signal[i];
+        output.push(y);
+        yPrev = y;
+      }
+      return output;
+    }
+
+    // --- Frequency Response Calculation Functions ---
+    function calculateFrequencyResponse(filterType, tauMs, frequencies) {
+      const response = [];
+      const tau = tauMs / 1000; // Convert ms to seconds
+      for (const f of frequencies) {
+        const omega = 2 * Math.PI * f;
+        let H_jw_mag = 0;
+        if (filterType === 'pre') {
+          H_jw_mag = Math.sqrt(1 + (omega * tau) * (omega * tau));
+        } else if (filterType === 'de') {
+          H_jw_mag = 1 / Math.sqrt(1 + (omega * tau) * (omega * tau));
+        }
+        response.push(20 * Math.log10(H_jw_mag));
+      }
+      return response;
+    }
+
+    // --- Plotting Functions ---
+    function plotTimeDomain(ctx, inputSignal, outputSignal) {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.beginPath();
+      ctx.strokeStyle = 'blue';
+      ctx.moveTo(0, ctx.canvas.height / 2 - inputSignal[0] * 50); // Scale amplitude
+      for (let i = 1; i < inputSignal.length; i++) {
+        const x = (i / inputSignal.length) * ctx.canvas.width;
+        const y = ctx.canvas.height / 2 - inputSignal[i] * 50;
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      if (outputSignal) {
+        ctx.beginPath();
+        ctx.strokeStyle = 'red';
+        ctx.moveTo(0, ctx.canvas.height / 2 - outputSignal[0] * 50);
+        for (let i = 1; i < outputSignal.length; i++) {
+          const x = (i / outputSignal.length) * ctx.canvas.width;
+          const y = ctx.canvas.height / 2 - outputSignal[i] * 50;
+          ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      // Basic labels
+      ctx.fillStyle = 'black';
+      ctx.fillText('Time', ctx.canvas.width - 30, ctx.canvas.height - 10);
+      ctx.fillText('Amplitude', 10, 10);
+    }
+
+    function plotFrequencyResponse(ctx, frequencies, magnitudes) {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.beginPath();
+      ctx.strokeStyle = 'green';
+      if (frequencies.length > 0) {
+        ctx.moveTo(0, ctx.canvas.height / 2 - magnitudes[0] * 5); // Scale dB
+        for (let i = 1; i < frequencies.length; i++) {
+          const x = (frequencies[i] / Math.max(...frequencies)) * ctx.canvas.width;
+          const y = ctx.canvas.height / 2 - magnitudes[i] * 5;
+          ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+
+      // Basic labels
+      ctx.fillStyle = 'black';
+      ctx.fillText('Frequency (Hz)', ctx.canvas.width - 80, ctx.canvas.height - 10);
+      ctx.fillText('Magnitude (dB)', 10, 10);
+    }
+
+    // --- Circuit Drawing Function (Simplified Conceptual Representation) ---
+    function drawCircuit(ctx, filterType) {
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.fillStyle = 'black';
+      ctx.font = '14px Arial';
+      if (filterType === 'pre') {
+        ctx.fillText('Simplified Pre-emphasis (High-Pass)', 20, 30);
+        ctx.strokeRect(50, 50, 50, 50); // Symbolic component
+        ctx.fillText('Input', 10, 80);
+        ctx.fillText('Output', 110, 80);
+      } else if (filterType === 'de') {
+        ctx.fillText('Simplified De-emphasis (Low-Pass)', 20, 30);
+        ctx.strokeRect(50, 50, 50, 50); // Symbolic component
+        ctx.fillText('Input', 10, 80);
+        ctx.fillText('Output', 110, 80);
+      } else if (filterType === 'combined') {
+        ctx.fillText('Simplified Pre & De-emphasis', 20, 30);
+        ctx.strokeRect(30, 50, 50, 50); // Symbolic Pre
+        ctx.strokeRect(110, 50, 50, 50); // Symbolic De
+        ctx.fillText('Input', 10, 80);
+        ctx.fillText('Output', 170, 80);
+      }
+    }
+
+    // --- Event Listeners ---
+    simulatePreButton.addEventListener('click', () => {
+      const tauPre = parseFloat(tauPreInput.value);
+      const signalType = signalTypeSelect.value;
+      const signalFreq = parseFloat(signalFreqInput.value);
+      const signalAmp = parseFloat(signalAmpInput.value);
+      let inputSignal = [];
+
+      if (signalType === 'sine') {
+        inputSignal = generateSineWave(signalFreq, signalAmp);
+      } else if (signalType === 'noise') {
+        inputSignal = generateWhiteNoise(signalAmp);
+      }
+
+      const outputSignal = applyPreEmphasis(inputSignal.slice(), tauPre);
+      plotTimeDomain(timeDomainCtx, inputSignal, outputSignal);
+
+      const frequencies = Array.from({ length: 200 }, (_, i) => (i / 199) * (sampleRate / 2));
+      const preResponse = calculateFrequencyResponse('pre', tauPre, frequencies);
+      plotFrequencyResponse(freqPreCtx, frequencies, preResponse);
+      drawCircuit(circuitCtx, 'pre');
+    });
+
+    simulateDeButton.addEventListener('click', () => {
+      const tauDe = parseFloat(tauDeInput.value);
+      const signalType = signalTypeSelect.value;
+      const signalFreq = parseFloat(signalFreqInput.value);
+      const signalAmp = parseFloat(signalAmpInput.value);
+      let inputSignal = [];
+
+      if (signalType === 'sine') {
+        inputSignal = generateSineWave(signalFreq, signalAmp);
+      } else if (signalType === 'noise') {
+        inputSignal = generateWhiteNoise(signalAmp);
+      }
+
+      const outputSignal = applyDeEmphasis(inputSignal.slice(), tauDe);
+      plotTimeDomain(timeDomainCtx, inputSignal, outputSignal);
+
+      const frequencies = Array.from({ length: 200 }, (_, i) => (i / 199) * (sampleRate / 2));
+      const deResponse = calculateFrequencyResponse('de', tauDe, frequencies);
+      plotFrequencyResponse(freqDeCtx, frequencies, deResponse);
+      drawCircuit(circuitCtx, 'de');
+    });
+
+    simulateCombinedButton.addEventListener('click', () => {
+      const tauPre = parseFloat(tauPreInput.value);
+      const tauDe = parseFloat(tauDeInput.value);
+      const signalType = signalTypeSelect.value;
+      const signalFreq = parseFloat(signalFreqInput.value);
+      const signalAmp = parseFloat(signalAmpInput.value);
+      let inputSignal = [];
+
+      if (signalType === 'sine') {
+        inputSignal = generateSineWave(signalFreq, signalAmp);
+      } else if (signalType === 'noise') {
+        inputSignal = generateWhiteNoise(signalAmp);
+      }
+
+      const preProcessedSignal = applyPreEmphasis(inputSignal.slice(), tauPre);
+      const finalSignal = applyDeEmphasis(preProcessedSignal, tauDe);
+      plotTimeDomain(timeDomainCtx, inputSignal, finalSignal);
+
+      const frequencies = Array.from({ length: 200 }, (_, i) => (i / 199) * (sampleRate / 2));
+      const preResponse = calculateFrequencyResponse('pre', tauPre, frequencies);
+      const deResponse = calculateFrequencyResponse('de', tauDe, frequencies);
+      const combinedResponse = preResponse.map((dbPre, index) => dbPre + deResponse[index]);
+      plotFrequencyResponse(freqCombinedCtx, frequencies, combinedResponse);
+      drawCircuit(circuitCtx, 'combined');
+    });
+
+    // Initial drawing of circuit (optional)
+    drawCircuit(circuitCtx, 'combined');
+  </script>
+
+</body>
+</html>

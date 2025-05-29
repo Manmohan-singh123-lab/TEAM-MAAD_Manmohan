@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Breadboard Simulator</title>
+    <style>
+        body { margin: 0; height: 100%; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Scene Setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add a basic lighting
+        const light = new THREE.AmbientLight(0x404040);  // Ambient light
+        scene.add(light);
+
+        // Create breadboard structure
+        function createBreadboard() {
+            const breadboardWidth = 15;
+            const breadboardHeight = 3;
+            const breadboardLength = 10;
+
+            // Base of the breadboard
+            const breadboardGeometry = new THREE.BoxGeometry(breadboardWidth, breadboardHeight, breadboardLength);
+            const breadboardMaterial = new THREE.MeshBasicMaterial({ color: 0xeeeeee });
+            const breadboard = new THREE.Mesh(breadboardGeometry, breadboardMaterial);
+            breadboard.position.set(0, 0, 0);
+            scene.add(breadboard);
+
+            // Holes in the breadboard
+            const holeGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+            const holeMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
+            
+            for (let i = -breadboardWidth / 2; i < breadboardWidth / 2; i++) {
+                for (let j = -breadboardLength / 2; j < breadboardLength / 2; j++) {
+                    // Positions the holes
+                    const hole = new THREE.Mesh(holeGeometry, holeMaterial);
+                    hole.position.set(i, 0.2, j);
+                    scene.add(hole);
+                }
+            }
+        }
+
+        createBreadboard();
+
+        // Camera positioning
+        camera.position.z = 20;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Resizing the window
+        window.addEventListener('resize', () => {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+        });
+    </script>
+</body>
+</html>

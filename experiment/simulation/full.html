@@ -1,0 +1,106 @@
+!DOCTYPE html>
+<html>
+<head>
+  <title>BPSK Modulator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    input, button {
+      padding: 8px;
+      margin: 5px;
+    }
+    #chartContainer {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <h2>BPSK Modulated Wave Generator</h2>
+  
+  <label>Binary Input (e.g., 1010):</label>
+  <input type="text" id="binaryInput" placeholder="Enter binary string" />
+
+  <label>Carrier Frequency (Hz):</label>
+  <input type="number" id="frequencyInput" value="1000" />
+
+  <label>Amplitude (Volts):</label>
+  <input type="number" id="amplitudeInput" value="5" />
+
+  <button onclick="generateBPSK()">Generate BPSK</button>
+
+  <div id="chartContainer">
+    <canvas id="bpskChart"></canvas>
+  </div>
+
+  <script>
+    let chart;
+
+    function generateBPSK() {
+      const binary = document.getElementById("binaryInput").value;
+      const freq = parseFloat(document.getElementById("frequencyInput").value);
+      const amp = parseFloat(document.getElementById("amplitudeInput").value);
+
+      const sampleRate = 1000; // samples per bit
+      const bitDuration = 1 / freq; // in seconds
+      const totalSamples = binary.length * sampleRate;
+
+      const data = [];
+      const labels = [];
+
+      for (let i = 0; i < binary.length; i++) {
+        const bit = binary[i];
+        for (let j = 0; j < sampleRate; j++) {
+          const t = (i * sampleRate + j) / sampleRate; // time in ms
+          const angle = 2 * Math.PI * freq * (j / sampleRate);
+
+          // BPSK logic: 0 = phase shift 180 deg = multiply carrier by -1
+          const carrier = amp * Math.sin(angle);
+          const value = bit === '0' ? -carrier : carrier;
+
+          data.push(value);
+          labels.push((t * 1000).toFixed(2)); // Time in milliseconds
+        }
+      }
+
+      if (chart) chart.destroy();
+
+      const ctx = document.getElementById("bpskChart").getContext("2d");
+      chart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [{
+            label: "BPSK Modulated Signal",
+            data: data,
+            borderColor: "blue",
+            borderWidth: 1,
+            pointRadius: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              type: 'linear',
+              title: {
+                display: true,
+                text: 'Time (ms)'
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Amplitude (Volts)'
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

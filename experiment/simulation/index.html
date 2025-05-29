@@ -1,13 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Binary Waveform Plotter</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #f2f2f2;
+    }
+    canvas {
+      background: #ffffff;
+      border: 1px solid #000;
+      margin-top: 20px;
+    }
+    input {
+      font-size: 16px;
+      padding: 5px 10px;
+      margin: 10px;
+    }
+  </style>
 </head>
 <body>
-		<!-- Your code goes here-->
-<p>take </p>
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+  <h2>Binary Input to Graph</h2>
+  <input type="text" id="binaryInput" placeholder="Enter binary (e.g. 1010)">
+  <button onclick="drawWave()">Draw Waveform</button>
+  <br>
+  <canvas id="waveformCanvas" width="800" height="300"></canvas>
+
+  <script>
+    function drawWave() {
+      const input = document.getElementById("binaryInput").value.trim();
+      const canvas = document.getElementById("waveformCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Check for valid input
+      if (!/^[01]+$/.test(input)) {
+        alert("Please enter a valid binary sequence (only 0 and 1).");
+        return;
+      }
+
+      // Drawing parameters
+      const bitWidth = 60;
+      const highY = 100;
+      const lowY = 200;
+      let x = 10;
+
+      // Draw X-axis
+      ctx.beginPath();
+      ctx.moveTo(0, 150);
+      ctx.lineTo(canvas.width, 150);
+      ctx.strokeStyle = "#999";
+      ctx.stroke();
+
+      // Draw waveform
+      ctx.beginPath();
+      ctx.moveTo(x, input[0] === "1" ? highY : lowY);
+
+      for (let i = 0; i < input.length; i++) {
+        const bit = input[i];
+        const y = bit === "1" ? highY : lowY;
+        ctx.lineTo(x + bitWidth, y);
+
+        // Draw vertical transition if next bit is different
+        if (i < input.length - 1 && input[i] !== input[i + 1]) {
+          ctx.lineTo(x + bitWidth, input[i + 1] === "1" ? highY : lowY);
+        }
+
+        x += bitWidth;
+      }
+
+      ctx.strokeStyle = "#007acc";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  </script>
 </body>
 </html>
