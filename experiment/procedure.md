@@ -1,4 +1,5 @@
- 1. Open the simulation file.
+### Procedure
+1. Open the simulation file.
 
 
 2. Enter binary input (e.g., 1011).
