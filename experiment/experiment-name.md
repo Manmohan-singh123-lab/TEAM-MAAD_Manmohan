@@ -1,1 +1,1 @@
-design a front end BPSK modulator and demodulator
+Design a front end BPSK modulator and demodulator.
