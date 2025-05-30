@@ -1,4 +1,3 @@
-### References
 1. Lathi, B. P., Modern Digital and Analog Communication Systems, Oxford University Press, 4th Edition, 2011.
 
 
