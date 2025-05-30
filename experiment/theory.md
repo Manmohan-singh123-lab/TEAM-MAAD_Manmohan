@@ -1,6 +1,6 @@
-Theory:
+## Theory:
 
-🔸 1. Introduction:
+### 1. Introduction:
 
 Binary Phase Shift Keying (BPSK) is one of the most basic forms of digital modulation. In BPSK, each bit in the binary data is represented by a change in the phase of a carrier wave. It uses two distinct phase states separated by 180 degrees.
 
@@ -10,7 +10,7 @@ Binary '0' → Carrier with phase 180°
 
 This makes it a 2-phase modulation scheme, which is also called Phase Reversal Keying.
 
-🔸 2. Mathematical Representation:
+### 2. Mathematical Representation:
 
 The modulated BPSK signal can be written as:
 
@@ -32,7 +32,7 @@ Or, using baseband representation:
 s(t) = m(t).cos(2πfct)
 
 
-🔸 3. BPSK Modulation Process:
+### 3. BPSK Modulation Process:
 
 A binary data stream is first converted to NRZ (Non-Return to Zero) format:
 
@@ -45,7 +45,7 @@ This NRZ signal is multiplied with a high-frequency carrier signal (cosine wave)
 The result is a BPSK modulated signal where the phase of the carrier flips 180° depending on the data bit.
 
 
-🔸 4. BPSK Demodulation:
+### 4. BPSK Demodulation:
 
 At the receiver:
 
@@ -63,7 +63,7 @@ This is known as coherent detection because it relies on phase synchronization w
 
 
 
-🔸 5. Advantages of BPSK:
+### 5. Advantages of BPSK:
 
 Simple to implement
 
@@ -74,7 +74,7 @@ Efficient in low SNR (Signal-to-Noise Ratio) environments
 Best BER (Bit Error Rate) performance among all binary modulation schemes
 
 
-🔸 6. Disadvantages:
+### 6. Disadvantages:
 
 Carries only 1 bit per symbol → Low data rate
 
@@ -83,7 +83,7 @@ Requires coherent detection (phase synchronization at receiver)
 Inefficient for bandwidth-sensitive applications
 
 
-🔸 7. Applications of BPSK:
+### 7. Applications of BPSK:
 
 Satellite communication
 
@@ -95,7 +95,7 @@ Wireless LAN (some implementations)
 
 Bluetooth low-energy control signals
 
-🔸 8. Performance:
+### 8. Performance:
 
 BPSK has the lowest probability of error for a given energy per bit in comparison with other binary schemes.
 
