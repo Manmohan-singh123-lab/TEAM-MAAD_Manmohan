@@ -2,7 +2,7 @@
   "version": 2.0,
   "questions": [
     {
-      "In BPSK,binary bit'0'is represented by?": "This is a Sample Question 1?",
+      "question" : "In BPSK,binary bit'0'is represented by?",
       "answers": {
         "a": "A higher amplitude of the carrier",
         "b": "A phase shift of 180 degree of the carrier",
@@ -10,16 +10,16 @@
         "d": "No signal at all"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Correct",
+        "c": "Incorrect",
+        "d": "Incorrect"
       },
       "correctAnswer": "b",
       "difficulty": "beginner"
     },
     {
-      "Which of the following modulation schemes offer better noise immunity? ": "This is a Sample Question 2?",
+      "question": "Which of the following modulation schemes offer better noise immunity? ",
       "answers": {
         "a": "ASK",
         "b": "FSK",
@@ -27,13 +27,64 @@
         "d": "PWM"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Incorrect",
+        "c": "Correct",
+        "d": "Incorrect"
       },
       "correctAnswer": "c",
       "difficulty": "beginner"
-    }
+    },
+    {
+      "question" : " How many distinct phases are used in BPSK modulation?",
+      "answers": {
+        "a": "1",
+        "b": "2",
+        "c": "4",
+        "d": "8"
+      },
+      "explanations": {
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Correct",
+        "c": "Incorrect",
+        "d": "Incorrect"
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question" : "What is the phase difference between the two symbols in BPSK?",
+      "answers": {
+        "a": "45°",
+        "b": "90°",
+        "c": "180°",
+        "d": "360°"
+      },
+      "explanations": {
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Incorrect",
+        "c": "Correct",
+        "d": "Incorrect"
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question" : "Which of the following is a key requirement for coherent demodulation of a BPSK signal?",
+      "answers": {
+        "a": "Amplitude reference",
+        "b": "Frequency modulator",
+        "c": "Phase reference",
+        "d": "Bandwidth filter"
+      },
+      "explanations": {
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Incorrect",
+        "c": "Correct",
+        "d": "Incorrect"
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
   ]
 }
