@@ -132,7 +132,7 @@
      }, 
      
      {
-      question: "4. Which of the following is a key requirement for coherent demodulation of a BPSK signal?",  ///// Write the question inside double quotes
+      question: "5. Which of the following is a key requirement for coherent demodulation of a BPSK signal?",  ///// Write the question inside double quotes
        answers: {
          a: "Amplitude reference",                  ///// Write the option 1 inside double quotes
          b: "Frequency modulator",                  ///// Write the option 2 inside double quotes
