@@ -2,38 +2,89 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "In BPSK modulation, the phase of the carrier signal is shifted by how many degrees to represent binary '1' and '0'?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "90°",
+        "b": "180°",
+        "c": "45°",
+        "d": "270°"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect <a href='www.google.com'>here</a>",
+        "b": "Correct",
+        "c": "Incorrect",
+        "d": "Incorrect"
       },
-      "correctAnswer": "a",
+      "correctAnswer": "b",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "What is the main advantage of BPSK over ASK (Amplitude Shift Keying)?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "Higher data rate",
+        "b": " Lower bandwidth requirement",
+        "c": "Better noise immunity",
+        "d": "Simpler implementation"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Incorrect",
+        "c": "Correct",
+        "d": "Incorrect"
       },
       "correctAnswer": "c",
       "difficulty": "beginner"
-    }
+    },
+    {
+      "question": " In a BPSK demodulator, the received signal is multiplied by which of the following to retrieve the original data?",
+      "answers": {
+        "a": "A cosine wave of different frequency",
+        "b": "A sine wave of the same frequency and phase",
+        "c": "The original carrier signal",
+        "d": "A square wave"
+      },
+      "explanations": {
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Incorrect",
+        "c": "Correct",
+        "d": "Incorrect"
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    },
+    {
+      "question": " What is the bit error rate (BER) performance of BPSK in an AWGN channel compared to QPSK, assuming the same energy per bit?",
+      "answers": {
+        "a": "Worse than QPSK",
+        "b": " Same as QPSK",
+        "c": "Better than QPSK",
+        "d": "Depends on modulation index"
+      },
+      "explanations": {
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Correct",
+        "c": "Incorrect",
+        "d": "Incorrect"
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": " What happens to the BPSK signal in the presence of a 180° phase shift due to channel noise?",
+      "answers": {
+        "a": "It becomes stronger",
+        "b": "It is inverted, causing a bit error",
+        "c": "No effect occurs",
+        "d": "It doubles in amplitude"
+      },
+      "explanations": {
+        "a": "Incorrect  <a href='www.google.com'>here</a>",
+        "b": "Correct",
+        "c": "Incorrect",
+        "d": "Incorrect"
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
   ]
 }
