@@ -1,5 +1,3 @@
-## Theory:
-
 ### 1. Introduction:
 
 Binary Phase Shift Keying (BPSK) is one of the most basic forms of digital modulation. In BPSK, each bit in the binary data is represented by a change in the phase of a carrier wave. It uses two distinct phase states separated by 180 degrees.
